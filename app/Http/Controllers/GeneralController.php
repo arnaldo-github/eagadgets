@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Config;
 
 class GeneralController extends Controller
@@ -17,8 +18,12 @@ class GeneralController extends Controller
         );
        return view('general.index')->with($data);
     }
+
+
+
     public function singleProduct($id){
         $data = array( 
+            'placeholder' => 'Pesquise produtos',
             'whatsappNumber'=> Config::get('social.whatsapp_number'),
             'phoneNumber' => Config::get('social.phone_number'),
             'categories' => Category::all(),
@@ -30,9 +35,40 @@ class GeneralController extends Controller
     }
     public function allProducts(){
         $data = array(
+            'placeholder' => 'Pesquise por todos os produtos',
             'categories' => Category::all(),
             'products' => Product::orderBy('updated_at', 'desc')->paginate(30),
         );
        return view('general.allproducts')->with($data);
+    }
+
+    public function search(Request $request){
+        $previousURL = url()->previous();
+        $category_id = session('search_category_id');
+        $containsCategoryInURL = Str::contains($previousURL, 'category');
+        //Devolve a pesquisa caso a pesquisa venha de uma categoria
+        
+        if ( $containsCategoryInURL || isset($category_id)) {
+            if ($containsCategoryInURL ) {
+                $category_id = explode('/', $previousURL)[4];
+            }
+
+            $products = Product::where([['name', 'LIKE', '%' . $request->searchText . '%'],
+             ['category_id', $category_id]
+            ])->orderBy('updated_at', 'desc')->paginate(50);
+       
+            $request->session()->put('search_category_id', $category_id);
+            $placeholder = "Pesquise produtos na categoria: ".Category::find($category_id)->name;
+        } else {
+            $products = Product::where('name', 'LIKE', '%' . $request->searchText . '%')->orderBy('updated_at', 'desc')->paginate(50);
+            $placeholder = 'Pesquise produtos';
+        }
+        
+        $data = array(
+            'placeholder'=>$placeholder,
+            'products' => $products,
+            'categories' => Category::all(),
+        );
+        return view('general.allproducts')->with($data);
     }
 }

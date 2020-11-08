@@ -1,5 +1,5 @@
 @extends('layouts.general')
-
+@section('title', 'Lista de produtos')
 @section('main')
 
 	@foreach($products as $product)

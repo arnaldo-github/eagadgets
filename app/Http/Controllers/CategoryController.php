@@ -32,7 +32,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        
+
         return view('category.create');
     }
 
@@ -54,13 +54,13 @@ class CategoryController extends Controller
             'name' => 'required|unique:categories|max:255',
             'description' => 'max:255',
         ];
-        
+
         $validator = Validator::make($request->all(), $rules, $messages);
 
         if ($validator->fails()) {
             return redirect()->back()
-                        ->withErrors($validator)
-                        ->withInput();
+                ->withErrors($validator)
+                ->withInput();
         }
 
         $category = new Category();
@@ -68,7 +68,7 @@ class CategoryController extends Controller
         $category->description = $request->description;
         $category->save();
 
-        $request->session()->flash('activity', 'Categoria '.$category->name. ' criada');
+        $request->session()->flash('activity', 'Categoria ' . $category->name . ' criada');
 
         return redirect('/admin/category');
     }
@@ -81,14 +81,15 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-      
-       $data = array(
-           'category' => Category::findOrFail($id),
-           'categories' => Category::all(),
-           'products' => $products = Product::where([['category_id', $id]])->orderBy('updated_at', 'desc')->paginate(50),
-           );
 
-           return view('category.show')->with($data);
+        $data = array(
+            'placeholder' => 'Pesquise nessa categoria',
+            'category' => Category::findOrFail($id),
+            'categories' => Category::all(),
+            'products' => $products = Product::where([['category_id', $id]])->orderBy('updated_at', 'desc')->paginate(50),
+        );
+
+        return view('category.show')->with($data);
     }
 
     /**
@@ -124,14 +125,14 @@ class CategoryController extends Controller
             'name' => 'required|max:30',
             'description' => 'max:255',
         ];
-        
-        
+
+
         $validator = Validator::make($request->all(), $rules, $messages);
 
         if ($validator->fails()) {
             return redirect()->back()
-                        ->withErrors($validator)
-                        ->withInput();
+                ->withErrors($validator)
+                ->withInput();
         }
 
         $category = Category::findOrFail($id);
@@ -139,24 +140,23 @@ class CategoryController extends Controller
         $category->description = $request->description;
 
         try {
-           $category->save();
+            $category->save();
         } catch (QueryException $ex) {
-            
+
             if (Str::contains($ex->getMessage(), 'duplicate')) {
                 $validator->errors()->add('name.unique', 'Já existe uma categoria com este nome');
                 return redirect()->back()
-                            ->withErrors($validator)
-                            ->withInput();
+                    ->withErrors($validator)
+                    ->withInput();
             }
             $validator->errors()->add('error', 'Erro no servidor');
             return redirect()->back()
-                        ->withErrors($validator)
-                        ->withInput();
-           
+                ->withErrors($validator)
+                ->withInput();
         }
         $category->save();
 
-        $request->session()->flash('activity', 'Categoria '.$category->name. ' editada');
+        $request->session()->flash('activity', 'Categoria ' . $category->name . ' editada');
 
         return redirect('/admin/category');
     }
@@ -174,11 +174,12 @@ class CategoryController extends Controller
         return redirect('/admin/category');
     }
 
-    public function listAll(){
+    public function listAll()
+    {
         $data = array(
             'categories' => Category::withTrashed()->orderBy('updated_at', 'desc')->get(),
         );
-       
+
         return view('category.index-all')->with($data);
     }
 }

@@ -1,5 +1,5 @@
 @extends('layouts.single')
-
+@section('title', 'Lista de produtos da categoria '. $category->name)
 @section('main')
 <div class="row">
     <h3>{{$category->name}}</h3>

@@ -7,7 +7,8 @@
 <meta http-equiv="cache-control" content="max-age=604800" />
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<title>Website title - bootstrap html template</title>
+
+<title>@yield('title')</title>
 
 <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon">
 
@@ -56,9 +57,9 @@ $(document).ready(function() {
 		</a> <!-- brand-wrap.// -->
 	</div>
 	<div class="col-lg-6 col-sm-12">
-		<form action="#" class="search">
+		<form action="{{route('search.all.products')}}" class="search">
 			<div class="input-group w-100">
-			    <input type="text" class="form-control" placeholder="Search">
+			    <input type="text" name="searchText" class="form-control" placeholder="Pesquisar produtos">
 			    <div class="input-group-append">
 			      <button class="btn btn-primary" type="submit">
 			        <i class="fa fa-search"></i>

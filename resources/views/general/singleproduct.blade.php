@@ -1,6 +1,6 @@
 @extends('layouts.single')
 @section('title', 'Vista de Produto')
-
+@section('title', $product->name)
 @section('main')
 <article class="card">
     <div class="card-body">
