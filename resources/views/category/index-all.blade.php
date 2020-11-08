@@ -16,7 +16,7 @@
         <tr>
             <th scope="col">#</th>
             <th scope="col">Nome</th>
-            <th scope="col">Description</th>
+            <th scope="col">Descrição</th>
             
         </tr>
     </thead>
