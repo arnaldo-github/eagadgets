@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\GeneralController;
 use App\Http\Controllers\ProductController;
+use App\Http\Middleware\CheckAdmin;
 use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 
@@ -35,10 +36,15 @@ Route::get('/product', [GeneralController::class, 'allProducts']);
 
 Route::get('/category/{id}', [CategoryController::class, 'show']);
 
-Route::redirect('/admin', '/admin/product');
-Route::get('/admin/category/list-all', [CategoryController::class, 'listAll']);
-Route::get('/admin/product/search', [ProductController::class, 'search']);
-Route::get('/admin/options', [AdminController::class, 'options']);
-Route::post('/admin/saveOptions', [AdminController::class, 'saveOptions']);
-Route::resource('/admin/category', CategoryController::class);
-Route::resource('/admin/product',ProductController::class);
+
+
+
+Route::middleware(['auth', CheckAdmin::class])->group(function () {
+    Route::redirect('/admin', '/admin/product');
+    Route::get('/admin/category/list-all', [CategoryController::class, 'listAll']);
+    Route::get('/admin/product/search', [ProductController::class, 'search']);
+    Route::get('/admin/options', [AdminController::class, 'options']);
+    Route::post('/admin/saveOptions', [AdminController::class, 'saveOptions']);
+    Route::resource('/admin/category', CategoryController::class);
+    Route::resource('/admin/product',ProductController::class); 
+});

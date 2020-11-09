@@ -1,43 +1,155 @@
-<x-guest-layout>
-    <x-jet-authentication-card>
-        <x-slot name="logo">
-            <x-jet-authentication-card-logo />
-        </x-slot>
+@extends('layouts.html')
+@section('title', 'Criar Conta')
 
-        <x-jet-validation-errors class="mb-4" />
+@section('main')
+<div class="registration-form">
 
-        <form method="POST" action="{{ route('register') }}">
-            @csrf
+    <form method="POST" action="{{ route('register') }}">´
 
-            <div>
-                <x-jet-label for="name" value="{{ __('Name') }}" />
-                <x-jet-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
+        @csrf
+        <div>
+            <img style="margin: 10px auto; display: block;" src="/images/logo.png" alt="">
+        </div>
+        <div>
+            <x-jet-validation-errors class="mb-4" />
+
+            @if (session('status'))
+            <div class="mb-4 font-medium text-sm text-green-600">
+                {{ session('status') }}
             </div>
+            @endif
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control item" id="name" name="name" :value="old('name')" required autofocus autocomplete="name" placeholder="Nome">
+        </div>
+        <div class="form-group">
+            <input type="email" class="form-control item" id="email" name="email" :value="old('email')" required placeholder="E-mail">
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-control item" id="password" name="password" required autocomplete="new-password" placeholder="Password">
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-control item" id="password_confirmation" name="password_confirmation" required autocomplete="new-password" required autocomplete="new-password" placeholder="Confirme a Password">
+        </div>
+        <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('login') }}">
+            {{ __('Já Possui conta?') }}
+        </a>
+        <div class="form-group">
+            <button type="submit" class="btn btn-block create-account">Criar Conta</button>
+        </div>
+    </form>
+    <div class="social-media">
+        <h5>Redes sociais</h5>
+        <div class="social-icons">
+            <a href="https://web.facebook.com/EaGAdgets.co.mz"><i class="fab fa-facebook-f"></i></a>
+        </div>
+    </div>
+</div>
 
-            <div class="mt-4">
-                <x-jet-label for="email" value="{{ __('Email') }}" />
-                <x-jet-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required />
-            </div>
+<script>
+    $(document).ready(function() {
+       
 
-            <div class="mt-4">
-                <x-jet-label for="password" value="{{ __('Password') }}" />
-                <x-jet-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
-            </div>
+    })
+</script>
+<style>
+    body {
+        background-color: #F8F8FF;
+    }
 
-            <div class="mt-4">
-                <x-jet-label for="password_confirmation" value="{{ __('Confirm Password') }}" />
-                <x-jet-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
-            </div>
+    .registration-form {
+        padding: 50px 0;
+    }
 
-            <div class="flex items-center justify-end mt-4">
-                <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('login') }}">
-                    {{ __('Already registered?') }}
-                </a>
+    .registration-form form {
+        background-color: #fff;
+        max-width: 600px;
+        margin: auto;
+        padding: 50px 70px;
+        border-top-left-radius: 30px;
+        border-top-right-radius: 30px;
+        box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.075);
+    }
 
-                <x-jet-button class="ml-4">
-                    {{ __('Register') }}
-                </x-jet-button>
-            </div>
-        </form>
-    </x-jet-authentication-card>
-</x-guest-layout>
+    .registration-form .form-icon {
+        text-align: center;
+        background-color: #5891ff;
+        border-radius: 50%;
+        font-size: 40px;
+        color: white;
+        width: 100px;
+        height: 100px;
+        margin: auto;
+        margin-bottom: 50px;
+        line-height: 100px;
+    }
+
+    .registration-form .item {
+        border-radius: 20px;
+        margin-bottom: 25px;
+        padding: 10px 20px;
+    }
+
+    .registration-form .create-account {
+        border-radius: 30px;
+        padding: 10px 20px;
+        font-size: 18px;
+        font-weight: bold;
+        background-color: #5791ff;
+        border: none;
+        color: white;
+        margin-top: 20px;
+    }
+
+    .registration-form .social-media {
+        max-width: 600px;
+        background-color: #fff;
+        margin: auto;
+        padding: 35px 0;
+        text-align: center;
+        border-bottom-left-radius: 30px;
+        border-bottom-right-radius: 30px;
+        color: #9fadca;
+        border-top: 1px solid #dee9ff;
+        box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.075);
+    }
+
+    .registration-form .social-icons {
+        margin-top: 30px;
+        margin-bottom: 16px;
+    }
+
+    .registration-form .social-icons a {
+        font-size: 23px;
+        margin: 0 3px;
+        color: #5691ff;
+        border: 1px solid;
+        border-radius: 50%;
+        width: 45px;
+        display: inline-block;
+        height: 45px;
+        text-align: center;
+        background-color: #fff;
+        line-height: 45px;
+    }
+
+    .registration-form .social-icons a:hover {
+        text-decoration: none;
+        opacity: 0.6;
+    }
+
+    @media (max-width: 576px) {
+        .registration-form form {
+            padding: 50px 20px;
+        }
+
+        .registration-form .form-icon {
+            width: 70px;
+            height: 70px;
+            font-size: 30px;
+            line-height: 70px;
+        }
+    }
+</style>
+
+@endsection
