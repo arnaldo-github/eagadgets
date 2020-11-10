@@ -109,9 +109,10 @@ class ProductController extends Controller
      */
     public function show($id)
     {
+        $product = Product::findOrFail($id);
         $data = array(
-            
-            'product' => Product::findOrFail($id),
+           
+            'product' => $product,
         );
         return view('product.show')->with($data);
     }

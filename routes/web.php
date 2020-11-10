@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\GeneralController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Middleware\CheckAdmin;
 use App\Models\Category;
 use Illuminate\Support\Facades\Route;
@@ -23,20 +24,20 @@ Route::get('/old', function () {
     return view('welcome');
 });
 
+Route::get('/', [GeneralController::class, 'index']);
+
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
+    return redirect('/');
 })->name('dashboard');
 
+Route::post('/review/add', [ReviewController::class, 'addReview'])->middleware('auth');
 
-Route::get('/', [GeneralController::class, 'index']);
 Route::get('/product/search', [GeneralController::class, 'search'])->name('search.all.products');
 
 Route::get('/product/{id}', [GeneralController::class, 'singleProduct']);
 Route::get('/product', [GeneralController::class, 'allProducts']);
 
 Route::get('/category/{id}', [CategoryController::class, 'show']);
-
-
 
 
 Route::middleware(['auth', CheckAdmin::class])->group(function () {

@@ -7,6 +7,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
 
 class GeneralController extends Controller
 {
@@ -22,12 +23,25 @@ class GeneralController extends Controller
 
 
     public function singleProduct($id){
+        $product = Product::findOrFail($id);
+        $array = DB::select("SELECT round(AVG(review),0) as avg FROM `reviews` WHERE product_id =".$id." GROUP BY product_id");
+
+        //No caso de a query não retornar nada, vai inventar 4
+        $averageInt= 4;  
+        //Retorna uma ´´unica colun
+        foreach ($array as $key => $value) {
+            $average = $value;
+            $averageInt = $average->avg;
+        }
+       
+      
         $data = array( 
+            'average' =>$averageInt= 4,
             'placeholder' => 'Pesquise produtos',
             'whatsappNumber'=> Config::get('social.whatsapp_number'),
             'phoneNumber' => Config::get('social.phone_number'),
             'categories' => Category::all(),
-            'message' => urlencode("Estou interressado no produto: *" . Product::findOrFail($id)->name . '*. O link é:'),
+            'message' => urlencode("Estou interressado no produto: *" . $product->name . '*. O link é:'),
             'product' => Product::findOrFail($id),
         );
         

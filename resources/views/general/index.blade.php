@@ -1,5 +1,5 @@
 @extends('layouts.general')
-@section('title', 'Lista de produtos')
+@section('title', 'EA Gadgets - Página Inicial')
 @section('main')
 
 	@foreach($products as $product)
