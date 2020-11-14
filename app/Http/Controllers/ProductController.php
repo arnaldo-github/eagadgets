@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -212,8 +213,11 @@ class ProductController extends Controller
     public function destroy($id)
     {
         $product = Product::findOrFail($id);
+        $deletePath = Str::replaceFirst('storage', 'public', $product->photo_path);
+        Storage::disk('local')->delete($deletePath);
+        $product->reviews()->delete();
         $product->destroy($id);
-        session()->flash('activity', 'Producto ' . $product->name . ' apagado com sucesso');
+        session()->flash('activity', 'Producto de nome: ' . $product->name . ' apagado com sucesso');
         return redirect('/admin/product');
     }
 

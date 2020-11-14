@@ -71,6 +71,7 @@
                             <div class="widget-header icontext">
                                 @auth
                                 <a href="/user/profile" class="icon icon-sm rounded-circle border"><i class="fa fa-user"></i></a>
+                               
                                 @else
                                 <div class="text">
                                     <div>

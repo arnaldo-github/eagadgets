@@ -73,7 +73,17 @@ $(document).ready(function() {
 						<div class="widgets-wrap float-md-right">
 							<div class="widget-header icontext">
 								@auth
-								<a href="/user/profile"  class="icon icon-sm rounded-circle border"><i class="fa fa-user"></i></a>
+								
+								<div class="dropdown">
+  <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+  <i class="fa fa-user"></i>
+  </a>
+
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+    <a class="dropdown-item"href="/user/profile" >Perfil</a>
+    
+  </div>
+</div>
 								@else
 								<div class="text">
 									<div>

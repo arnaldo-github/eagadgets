@@ -36,7 +36,7 @@ class GeneralController extends Controller
        
       
         $data = array( 
-            'average' =>$averageInt= 4,
+            'average' =>$averageInt,
             'placeholder' => 'Pesquise produtos',
             'whatsappNumber'=> Config::get('social.whatsapp_number'),
             'phoneNumber' => Config::get('social.phone_number'),
