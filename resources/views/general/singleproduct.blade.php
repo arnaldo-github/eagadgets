@@ -92,6 +92,7 @@ src="https://www.facebook.com/tr?id=3663972583662029&ev=PageView
 
 
     <script>
+        
         paintStars({{$average}})
         function paintStars(sno){
             for (var i = 1; i <= sno; i++) {
@@ -111,13 +112,12 @@ src="https://www.facebook.com/tr?id=3663972583662029&ev=PageView
             }
         }
         function add(ths, sno) {
-            console.log(jQuery('meta[name="csrf-token"]').attr('content'));
             fbq('track', 'Lead');
             for (var i = 1; i <= 5; i++) {
                 var cur = document.getElementById("star" + i)
                 cur.className = "fa fa-star"
             }
-            
+          
             $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
@@ -147,7 +147,7 @@ src="https://www.facebook.com/tr?id=3663972583662029&ev=PageView
             }
         });
             
-
+    }
         
     </script>
 

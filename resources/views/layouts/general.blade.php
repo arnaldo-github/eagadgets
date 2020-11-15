@@ -81,7 +81,14 @@ $(document).ready(function() {
 
   <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
     <a class="dropdown-item"href="/user/profile" >Perfil</a>
-    
+	<form method="POST" action="{{ route('logout') }}">
+                            @csrf
+
+                            <a class="dropdown-item" href="{{ route('logout') }}"
+                                                onclick="event.preventDefault();
+                                                            this.closest('form').submit();">
+                                {{ __('Logout') }}
+</a>
   </div>
 </div>
 								@else
