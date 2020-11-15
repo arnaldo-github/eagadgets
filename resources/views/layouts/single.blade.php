@@ -71,7 +71,15 @@
 						<div class="widgets-wrap float-md-right">
 							<div class="widget-header icontext">
 								@auth
-								<a href="/user/profile" class="icon icon-sm rounded-circle border"><i class="fa fa-user"></i></a>
+								<a class="dropdown-item"href="/user/profile" >Perfil</a>
+	<form method="POST" action="{{ route('logout') }}">
+                            @csrf
+
+                            <a class="dropdown-item" href="{{ route('logout') }}"
+                                                onclick="event.preventDefault();
+                                                            this.closest('form').submit();">
+                            Logout
+</a>
 								@else
 								<div class="text">
 									<div>

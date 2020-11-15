@@ -87,8 +87,9 @@ $(document).ready(function() {
                             <a class="dropdown-item" href="{{ route('logout') }}"
                                                 onclick="event.preventDefault();
                                                             this.closest('form').submit();">
-                                {{ __('Logout') }}
+                            Logout
 </a>
+	</form>
   </div>
 </div>
 								@else
