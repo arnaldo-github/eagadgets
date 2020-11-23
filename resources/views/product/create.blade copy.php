@@ -7,14 +7,12 @@
     .progress {
         position: relative;
         width: 100%;
-        margin-top: 20px;
-        margin-bottom: 25px;
     }
 
     .bar {
         background-color: #00ff00;
         width: 0%;
-        height: 40px;
+        height: 20px;
     }
 
     .percent {
@@ -62,7 +60,6 @@
 
         <div class="">
             <h3>Criar Produto</h3>
-            <p>Se houver algum ficheiro a vermelho, é porque este é maior que 700KB</p>
             <form action="{{url('/admin/product')}}" id="formProductCreation" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
@@ -73,11 +70,6 @@
                     <label for="name">Preço do produto</label>
                     <input type="number" step=".01" min="0" value="{{old('price')}}" required class="form-control" name="price" id="price">
                 </div>
-                <div class="form-group">
-                    <label for="sale">Desconto do produto (novo preço)</label>
-                    <input type="number" step=".01" min="0" value="{{old('sale')}}" required class="form-control" name="sale" id="sale">
-                </div>
-
 
 
                 <div class="form-group">
@@ -90,18 +82,14 @@
                 </div>
 
 
-                <div class="input-group">
+                <div class="inpu-group">
 
-                  <!--  <div class="box">
-                        <input type="file" name="image" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" multiple />
+                    <div class="box">
+                        <input type="file" name="image" id="file-1" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" multiple />
                         <label for="file-1"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17">
                                 <path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z" /></svg> <span>Escolha uma foto&hellip;</span></label>
-                    </div>-->
-                    <input style="display: block" id="file-1" type="file" name="image[]" accept="image/x-png,image/gif,image/jpeg" id="" multiple>
+                    </div>
                     <span class="red-text" id="fileErrorMessage">Escolha uma foto é obrigatório</span>
-                </div>
-                <div class="row images">
-                    
                 </div>
 
 
@@ -117,8 +105,6 @@
                 </div>
                 <button type="submit" class="btn btn-primary">Criar Produto</button>
             </form>
-
-           
         </div>
     </div>
 </div>
@@ -126,9 +112,6 @@
 
 
 <style>
-    .images img{
-        width: 100%;
-    }
     .red-text {
         color: #d3394c;
     }
@@ -183,9 +166,7 @@
         margin-right: 0.25em;
         /* 4px */
     }
-    .red-border{
-        border: 15px red solid;
-    }
+
 
     /* style 1 */
 
@@ -200,7 +181,78 @@
         background-color: #722040;
     }
 </style>
-<script type="text/javascript" src="/js/submit-photos.js"></script>
+<script type="text/javascript">
+    var SITEURL = "{{URL('/admin/product')}}";
+    $(function() {
+        $(document).ready(function() {
+            var bar = $('.bar');
+            var percent = $('.percent');
+
+            $('form').ajaxForm({
+                dataType: 'json',
+                beforeSend: function(xhr) {
+                    var percentVal = '0%';
+                    bar.width(percentVal)
+                    percent.html(percentVal);
+                },
+                uploadProgress: function(event, position, total, percentComplete) {
+                    var percentVal = percentComplete + '%';
+                    bar.width(percentVal)
+                    percent.html(percentVal);
+                },
+
+                success: function(xhr) {
+
+                   window.location.href = "/admin/product"
+
+
+                },
+                error: function(xhr) {
+                    var percentVal = '0%';
+                    bar.width(percentVal)
+                    percent.html(percentVal);
+
+                    console.log("erro");
+                    console.log(xhr);
+
+                    var texto = new Array();
+                    var response = xhr.responseJSON;
+                    if (response.name) {
+                        response.name.forEach(element => {
+                            texto.push(element)
+                        });
+                    }
+                    if (response.description) {
+                        response.description.forEach(element => {
+                        texto.push(element)
+                    });
+                    }
+                    if (response.price) {
+                        response.price.forEach(element => {
+                        texto.push(element)
+                    });
+                    if (response.category_id) {
+                        response.category_id.forEach(element => {
+                        texto.push(element)
+                    });
+                    }
+                    if (response.image) {
+                        response.image.forEach(element => {
+                        texto.push(element)
+                    });
+                    }
+                    alert(texto)
+                    var codHMTLToPush = ""
+                    texto.forEach(element => {
+                        codHMTLToPush  += "<li>"+element+"</li>"
+                    });
+                    $('#errors').append(codHMTLToPush);
+                }
+                }
+            });
+        });
+    });
+</script>
 
 <script>
     var quill = new Quill('#editor', {
@@ -211,9 +263,8 @@
         $('#descriptionErrorMessage').hide()
         $('#formProductCreation').submit((e) => {
             var html = quill.root.innerHTML;
-            
+
             // console.log($('#file-1').files.length);
-          
             if (document.getElementById("file-1").files.length == 0) {
                 $('#fileErrorMessage').show();
                 e.preventDefault()
@@ -227,9 +278,7 @@
             } else {
                 $('#descriptionErrorMessage').hide()
             }
-            
             $('#description').val(html)
-          
         })
     });
 

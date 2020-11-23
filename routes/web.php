@@ -22,6 +22,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/old', function () {
     return view('welcome');
+
+});
+Route::post('/test', function(){
+    return "ok";
 });
 
 Route::get('/', [GeneralController::class, 'index']);

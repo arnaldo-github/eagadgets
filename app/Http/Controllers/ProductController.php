@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Photo;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -51,54 +52,60 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-
+    { 
+     
         $messages = [
             'required' => 'O campo :attribute  é obrigatório',
             'max' => 'O campo :attribute não pode ter mais de :max caractéres',
             'min' => 'O campo :attribute  deve ter no mínimo :min caractéres',
             'image' => ':attribute precisa ser uma imagem',
             'file' => 'Falhou o upload do ficheiro',
-            'image.max' => 'A imagem não pode ter mais de 700Kilobytes ',
+            'image.*.max' => 'A(s) imagem(s) não pode ter mais de 700 Kilobytes',
+            'image.*.image' => 'A(s) imagem(s) devem ser imagens',
         ];
         $rules = [
             'name' => 'required|max:255',
-            'description' => 'required|max:40000',
+            'description' => 'max:40000',
             'price' => 'required|min:0',
-            'image' => 'required|file|image|max:700',
+            'image.*' => 'file|image|max:700',
             'category_id' => 'required',
         ];
         $attributes = [
             'name' => 'nome',
             'description' => 'descrição',
             'price' => 'preço',
-            'image' => 'imagem',
+            'image' => 'imagem(s)',
             'category_id' => 'categoria'
         ];
 
         $validator = Validator::make($request->all(), $rules, $messages, $attributes);
 
         if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
+            return response()->json($validator->errors(), 422);
         }
-        $file = $request->file('image');
-        $filename = Str::random(4) . time() . '.' . $file->getClientOriginalExtension();
-        $path = 'public/img/' . $filename;
-        Storage::disk('local')->put($path, file_get_contents($file));
+
         $product = new Product();
         $product->name = $request->name;
         $product->description = $request->description;
         $product->price = $request->price;
+        $product->sale = $request->sale;
         $product->user_id = auth()->user()->id;
         $product->category_id =   $request->category_id;
-        $product->photo_path = 'storage/img/' . $filename;
         $product->save();
-
-
+        
+        if($request->hasfile('image')){
+            foreach($request->file('image') as $file){
+                $filename = Str::random(4) . time() . '.' . $file->getClientOriginalExtension();
+                $path = 'public/img/' . $filename;
+                Storage::disk('local')->put($path, file_get_contents($file));
+                $photo = new Photo();
+                $photo->product_id = $product->id;
+                $photo->path = 'storage/img/' . $filename;
+                $photo->save();
+            }
+        }
         $request->session()->flash('activity', 'Produto:  ' . $product->name . ' criado');
-
+        return response()->json('OK', 200);
         return redirect('/admin/product');
     }
 
@@ -112,7 +119,6 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($id);
         $data = array(
-           
             'product' => $product,
         );
         return view('product.show')->with($data);
@@ -143,28 +149,28 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
 
-
-
         $messages = [
             'required' => 'O campo :attribute  é obrigatório',
             'max' => 'O campo :attribute não pode ter mais de :max caractéres',
             'min' => 'O campo :attribute  deve ter no mínimo :min caractéres',
             'image' => ':attribute precisa ser uma imagem',
             'file' => 'Falhou o upload do ficheiro',
-            'image.size' => 'A imagem não pode ter mais de 700Kilobytes ',
+            'image.*.size' => 'A(s) imagem(s) não pode ter mais de 700Kilobytes',
+            'image.*.image' => 'A(s) imagem(s) devem ser imagens',
         ];
         $rules = [
             'name' => 'required|max:255',
             'description' => 'max:40000',
+            'sale' => 'required',
             'price' => 'required|min:0',
-            'image' => 'file|image|max:700',
             'category_id' => 'required',
         ];
         $attributes = [
+            'sale' => 'desconto',
             'name' => 'nome',
             'description' => 'descrição',
             'price' => 'preço',
-            'image' => 'imagem',
+            'image' => 'imagem(s)',
             'category_id' => 'categoria'
         ];
 
@@ -179,21 +185,14 @@ class ProductController extends Controller
         }
         $product = Product::findOrFail($id);
 
-        if ($request->hasFile('image')) {
-            $deletePath = Str::replaceFirst('storage', 'public', $product->photo_path);
-            Storage::disk('local')->delete($deletePath);
-            $file = $request->file('image');
-            $filename = Str::random(4) . time() . '.' . $file->getClientOriginalExtension();
-            $path = 'public/img/' . $filename;
-            Storage::disk('local')->put($path, file_get_contents($file));
-            $product->photo_path = 'storage/img/' . $filename;
-        }
+    
 
         $product->name = $request->name;
         if (strlen($request->description) > 11) {
             $product->description = $request->description;
         }
         $product->price = $request->price;
+        $product->sale = $request->sale;
         $product->user_id = auth()->user()->id;
         $product->category_id =   $request->category_id;
         $product->save();
@@ -214,8 +213,12 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($id);
         $deletePath = Str::replaceFirst('storage', 'public', $product->photo_path);
-        Storage::disk('local')->delete($deletePath);
+        foreach ($product->photos as $photo) {
+            $deletePath = Str::replaceFirst('storage', 'public', $photo->path);
+            Storage::disk('local')->delete($deletePath);
+        }
         $product->reviews()->delete();
+        $product->photos()->delete();
         $product->destroy($id);
         session()->flash('activity', 'Producto de nome: ' . $product->name . ' apagado com sucesso');
         return redirect('/admin/product');

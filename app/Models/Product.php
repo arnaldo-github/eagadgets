@@ -15,4 +15,7 @@ class Product extends Model
     public function reviews(){
         return $this->hasMany('App\Models\Review');
     }
+    public function photos(){
+        return $this->hasMany('App\Models\Photo');
+    }
 }
