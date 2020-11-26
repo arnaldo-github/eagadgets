@@ -89,7 +89,7 @@ class CategoryController extends Controller
             'products' => $products = Product::where([['category_id', $id]])->orderBy('updated_at', 'desc')->paginate(50),
         );
 
-        return view('category.show')->with($data);
+        return view('general.category')->with($data);
     }
 
     /**

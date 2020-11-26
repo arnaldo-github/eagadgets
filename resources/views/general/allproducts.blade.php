@@ -1,32 +1,55 @@
-@extends('layouts.allproducts')
-
-@section('title', 'Pesquisa de produtos')
-
+@extends('layouts.basic')
+@section('title', 'Página de produtos')
 @section('main')
+@Include('components-structure.searchbar')
 
-	<div class="col-md-12">
+<div class="container">
+<div class="row">
 		@if(count($products)<=0)
-			<h5>Não há resultados por mostrar para '{{Request::get("searchText")}}' 
-
+			<h5>Não há produtos por mostrar
 			@if(isset($category->name))
 				na categoria {{$category->name}}
 			@endif
 			</h5>
 		@endif
 	</div>
+</div>
 
-	@foreach($products as $product)
-	<div class="col-md-3">
-			<div href="#" class="card card-product-grid">
-				<a href="/product/{{$product->id}}" class="img-wrap"> <img src="{{''.url($product->photo_path)}}"> </a>
-				<figcaption class="info-wrap">
-					<a href="/product/{{$product->id}}" class="title">{{$product->name}}</a>
-					<div class="price mt-1">MTN {{$product->price}}</div> <!-- price-wrap.// -->
-				</figcaption>
-			</div>
-        </div>
-        
-        {{$products->links()}}
-	@endforeach
+<div class="container">
+	  <h4 class="center">Produtos</h4>
+	  <div class="row">
+	  @foreach($products as $product)
+		<div class="col s12 m6 l4 xl4 ">
+			<a href="{{url('/product/'.$product->id)}}">
+				<div class="card product-card">
+					<a href="{{url('/product/'.$product->id)}}">
+						<img class="responsive-img" src="{{url($product->photos->first()->path)}}" alt="" srcset="">
+					</a>
+					<p style="text-transform: uppercase; font-weight: 700; text-decoration: underline;">
+						<a class="black-text product-link" href="{{url('/product/'.$product->id)}}">
+							{{$product->name}}
+						</a>
+
+						</p>
+					<p><span class="red-text">{{$product->sale}}</span>
+						<span @if(isset($product->sale)) style="text-decoration: line-through;" @endif >{{$product->price}}</span></p>
+
+					@if(isset($product->sale))
+					<p class="red darken-1 white-text" style="font-size: 12px; font-weight: 500; width: fit-content; padding: 5px;">SALE</p>
+					@endif
+				</div>
+
+		</div>
+		@endforeach
+	  </div>
+	<div id="links">
+	{{$products->links()}}
+	</div>
+
+  </div>
+
+@Include('components-structure.marketing')
+
+</div>
 
 @endsection

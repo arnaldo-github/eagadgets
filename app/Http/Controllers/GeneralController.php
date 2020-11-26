@@ -33,10 +33,12 @@ class GeneralController extends Controller
             $average = $value;
             $averageInt = $average->avg;
         }
+        $productSugestions = Product::where('category_id', $product->category->id)->inRandomOrder()->limit(5)->get();
        
       
         $data = array( 
             'average' =>$averageInt,
+            'productSugestions' => $productSugestions,
             'placeholder' => 'Pesquise produtos',
             'whatsappNumber'=> Config::get('social.whatsapp_number'),
             'phoneNumber' => Config::get('social.phone_number'),
@@ -81,8 +83,9 @@ class GeneralController extends Controller
         $data = array(
             'placeholder'=>$placeholder,
             'products' => $products,
+            'category' => Category::find($category_id),
             'categories' => Category::all(),
         );
-        return view('general.allproducts')->with($data);
+        return view('general.search')->with($data);
     }
 }

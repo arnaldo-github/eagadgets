@@ -57,7 +57,7 @@
                 </div>
                 <div class="form-group">
                     <label for="sale">Desconto do produto (novo preço)</label>
-                    <input type="number" step=".01" min="0" value="{{$product->sale}}" required class="form-control" name="sale" id="sale">
+                    <input type="number" step=".01" min="0" value="{{$product->sale}}"  class="form-control" name="sale" id="sale">
                 </div>
 
 

@@ -1,7 +1,7 @@
-@extends('layouts.single')
-
-@section('title', $product->name)
+@extends('layouts.basic')
+@section('title', 'Página do produto - '. $product->name)
 @section('main')
+@Include('components-structure.searchbar')
 <div id="fb-root"></div>
 <script async defer crossorigin="anonymous" src="https://connect.facebook.net/pt_PT/sdk.js#xfbml=1&version=v9.0" nonce="BAxxxEfF"></script>
 
@@ -22,83 +22,99 @@ fbq('track', 'PageView');
 src="https://www.facebook.com/tr?id=3663972583662029&ev=PageView
 &noscript=1"/>
 </noscript>
-<article class="card">
-    <div class="card-body">
-        <div class="row">
-            <aside class="col-md-6">
-                <article class="gallery-wrap">
-                    <div class="card img-big-wrap">
-                        <a href="#"> <img src="{{asset($product->photo_path)}}"></a>
-                    </div> <!-- card img-big-wrap.// -->
+<div class="container" style=" margin-bottom: 30px;">
 
-                </article> <!-- gallery-wrap .end// -->
-            </aside>
-            <main class="col-md-6">
-                <article>
-                    <a href="#" class="text-primary btn-link">{{$product->category->name}}</a>
-                    <h3 class="title">{{$product->name}}</h3>
-                    <hr>
+    <div class="row card main-card">
+        <div class="  col s12 m12 l12 xl12">
+            <div class="carousel">
+                <h4 class="center">{{$product->name}}</h4>
 
-                    <h2>Star Rating</h2>
-                    <span class="fa fa-star" id="star1" onclick="add(this,1)"></span>
-                    <span class="fa fa-star" id="star2" onclick="add(this,2)"></span>
-                    <span class="fa fa-star" id="star3" onclick="add(this,3)"></span>
-                    <span class="fa fa-star" id="star4" onclick="add(this,4)"></span>
-                    <span class="fa fa-star" id="star5" onclick="add(this,5)"></span>
-
-                    <div class="mb-3">
-                        <h6>Descrição:</h6>
-                        <div>
-                            {!!$product->description!!}
-                        </div>
-                    </div>
+                @foreach($product->photos as $photo)
+                <a class="carousel-item" href="#one!"><img src="{{url($photo->path)}}"></a>
+                @endforeach
+            </div>
+        </div>
+        <div class="  col s12 m12 l4 xl5">
+            <div style="margin-top: 30px;">
+                <p class="center">
+                <span class="material-icons" id="star1" onclick="add(this,1)">star</span>
+                <span class="material-icons" id="star2" onclick="add(this,2)">star</span>
+                <span class="material-icons" id="star3" onclick="add(this,3)">star</span>
+                <span class="material-icons" id="star4" onclick="add(this,4)">star</span>
+                <span class="material-icons" id="star5" onclick="add(this,5)">star</span>
+            </p>
+                <h3 class="center" style=" font-size: 25px;font-weight: 800;">{{$product->name}}</h3>
+                <h5 class="center" style="text-decoration: line-through; font-size: 20px;font-weight: 700;">
 
 
+                    {{$product->price}} MT <span>antes</span></h5>
+                <h5 class="center red-text" style=" font-size: 20px;font-weight: 700;">
+                    {{$product->sale}} MT <small>(agora)</small></h5>
+                <p class="center" class="center"><a
+                href="https://wa.me/{{$whatsappNumber}}?text={{$message . ' '. url()->full()}}"
+                style="background-color:  rgb(83, 200, 243) !important;width: 80%; height: 100%; padding-top: 10px; padding-bottom: 10px;" class="btn black">Mandar Mensagem <span class="flaticon-whatsapp"> </span> </a> <br>
+                </p>
+                <p style="margin-top: 10px;" class="center"><a  href="tel:{{$phoneNumber}}" style="background-color:  rgb(83, 200, 243) ;width: 80%; height: 100%; padding-top: 10px; padding-bottom: 10px;" class="btn black">Ligar <span class="flaticon-phone-call"></span>
+</a> <br>
+                </p>
+            </div>
+        </div>
+        <div class="  col s12 m12 l8 xl7">
+            <div style="margin-top: 40px;">
+                <H6 class="center" style="font-weight: 700;">Descrição do produto</H6>
+                {!!$product->description!!}
+            </div>
+        </div>
+    </div>
 
-                    <div class="mb-3">
-                        <var class="price h4">MTN{{$product->price}}</var> <br>
+    <div class="row card">
+        <div class="col s12 m12 l12 xl12">
+        <h5>Outros produtos</h5>
+        </div>
+    @foreach($productSugestions as $product)
+		<div class="col  s12 m6 l4 xl4 ">
+			<a href="{{url('/product/'.$product->id)}}">
+				<div class="card product-card">
+					<a href="{{url('/product/'.$product->id)}}">
+						<img class="responsive-img" src="{{url($product->photos->first()->path)}}" alt="" srcset="">
+					</a>
+					<p style="text-transform: uppercase; font-weight: 700; text-decoration: underline;">
+						<a class="black-text product-link" href="{{url('/product/'.$product->id)}}">
+							{{$product->name}}
+						</a>
 
-                    </div> <!-- price-detail-wrap .// -->
+						</p>
+					<p><span class="red-text">{{$product->sale}}</span>
+						<span @if(isset($product->sale)) style="text-decoration: line-through;" @endif >{{$product->price}}</span></p>
 
-                    <div class="mb-4">
-                        <a href="https://wa.me/{{$whatsappNumber}}?text={{$message . ' '. url()->full()}}" class="btn btn-primary">Mandar Mensagem por WhatsApp <i class="fab fa-whatsapp"></i></a> <br>
-                        <a style="margin-top: 20px;" href="tel:{{$phoneNumber}}" class="btn btn-primary">Ligar <i class="fas fa-phone"></i></a>
+					@if(isset($product->sale))
+					<p class="red darken-1 white-text" style="font-size: 12px; font-weight: 500; width: fit-content; padding: 5px;">SALE</p>
 
-                    </div>
-                 <!--   <div class="mb-4">
-                    <div class="fb-comments" data-href="https://{{ Illuminate\Support\Facades\Config::get('social.app_domain')}}/product/{{$product->id}}" data-numposts="5" data-width=""></div>                        
+					@endif
+				</div>
 
-                    </div> -->
+		</div>
+		@endforeach
+    </div>
 
-
-                </article> <!-- product-info-aside .// -->
-            </main> <!-- col.// -->
-        </div> <!-- row.// -->
-    </div> <!-- card-body.// -->
-</article>
-
-<style>
-    .checked {
-        color: orange;
-    }
-    .blue{
-        color: blue;
-    }
-</style>
-</head>
-
-<body>
-
-
-
+@Include('components-structure.marketing')
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var elems = document.querySelectorAll('.carousel');
+            var instances = M.Carousel.init(elems, {
+                numVisible: 1,
+                indicators: true
+            });
+        });
+    </script>
+     <script>
         
         paintStars({{$average}})
         function paintStars(sno){
             for (var i = 1; i <= sno; i++) {
                 var cur = document.getElementById("star" + i)
-                if (cur.className == "fa fa-star") {
-                    cur.className = "fa fa-star checked"
+                if (cur.className == "material-icons") {
+                    cur.className = "material-icons painted"
                 }
             }
         }
@@ -106,8 +122,8 @@ src="https://www.facebook.com/tr?id=3663972583662029&ev=PageView
         function paintBlueStars(sno){
             for (var i = 1; i <= sno; i++) {
                 var cur = document.getElementById("star" + i)
-                if (cur.className == "fa fa-star") {
-                    cur.className = "fa fa-star blue"
+                if (cur.className == "material-icons") {
+                    cur.className = "material-icons painted"
                 }
             }
         }
@@ -115,7 +131,7 @@ src="https://www.facebook.com/tr?id=3663972583662029&ev=PageView
             fbq('track', 'Lead');
             for (var i = 1; i <= 5; i++) {
                 var cur = document.getElementById("star" + i)
-                cur.className = "fa fa-star"
+                cur.className = "material-icons"
             }
           
             $.ajaxSetup({
@@ -140,6 +156,7 @@ src="https://www.facebook.com/tr?id=3663972583662029&ev=PageView
             },
             error: function (error) {
                 console.log(error);
+                paintStars({{$average}})
                 console.log("come "+error.status);
                 if (error.status == 401) {
                     window.location.href = "/login"
@@ -150,6 +167,6 @@ src="https://www.facebook.com/tr?id=3663972583662029&ev=PageView
     }
         
     </script>
+</div>
 
-
-    @endsection
+@endsection

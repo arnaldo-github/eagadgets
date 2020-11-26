@@ -20,9 +20,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+Route::view('/basic', 'layouts.basic');
+
 Route::get('/old', function () {
     return view('welcome');
-
 });
 Route::post('/test', function(){
     return "ok";

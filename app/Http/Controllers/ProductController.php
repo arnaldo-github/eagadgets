@@ -160,8 +160,7 @@ class ProductController extends Controller
         ];
         $rules = [
             'name' => 'required|max:255',
-            'description' => 'max:40000',
-            'sale' => 'required',
+            'description' => 'max:40000', 
             'price' => 'required|min:0',
             'category_id' => 'required',
         ];
