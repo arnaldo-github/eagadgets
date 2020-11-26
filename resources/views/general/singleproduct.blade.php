@@ -44,12 +44,12 @@ src="https://www.facebook.com/tr?id=3663972583662029&ev=PageView
                 <span class="material-icons" id="star5" onclick="add(this,5)">star</span>
             </p>
                 <h3 class="center" style=" font-size: 25px;font-weight: 800;">{{$product->name}}</h3>
-                <h5 class="center" style="text-decoration: line-through; font-size: 20px;font-weight: 700;">
+                <h5 class="center" style="@if(isset($product->sale) && $product->sale > 0)text-decoration: line-through; @endif font-size: 20px;font-weight: 700;">
 
 
-                    {{$product->price}} MT <span>antes</span></h5>
-                <h5 class="center red-text" style=" font-size: 20px;font-weight: 700;">
-                    {{$product->sale}} MT <small>(agora)</small></h5>
+                    {{$product->price}} MT @if(isset($product->sale) && $product->sale > 0)<span>antes</span> @endif</h5>
+          @if(isset($product->sale) && $product->sale > 0)      <h5 class="center red-text" style=" font-size: 20px;font-weight: 700;">
+                    {{$product->sale}} MT <small>(agora)</small></h5> @endif
                 <p class="center" class="center"><a
                 href="https://wa.me/{{$whatsappNumber}}?text={{$message . ' '. url()->full()}}"
                 style="background-color:  rgb(83, 200, 243) !important;width: 80%; height: 100%; padding-top: 10px; padding-bottom: 10px;" class="btn black">Mandar Mensagem <span class="flaticon-whatsapp"> </span> </a> <br>
@@ -84,10 +84,10 @@ src="https://www.facebook.com/tr?id=3663972583662029&ev=PageView
 						</a>
 
 						</p>
-					<p><span class="red-text">{{$product->sale}}</span>
-						<span @if(isset($product->sale)) style="text-decoration: line-through;" @endif >{{$product->price}}</span></p>
+					<p>@if(isset($product->sale) && $product->sale > 0)<span class="red-text">{{$product->sale}}</span> @endif
+						<span @if(isset($product->sale) && $product->sale > 0) style="text-decoration: line-through;" @endif >{{$product->price}}</span></p>
 
-					@if(isset($product->sale))
+					@if(isset($product->sale) && $product->sale > 0)
 					<p class="red darken-1 white-text" style="font-size: 12px; font-weight: 500; width: fit-content; padding: 5px;">SALE</p>
 
 					@endif
@@ -102,7 +102,7 @@ src="https://www.facebook.com/tr?id=3663972583662029&ev=PageView
         document.addEventListener('DOMContentLoaded', function() {
             var elems = document.querySelectorAll('.carousel');
             var instances = M.Carousel.init(elems, {
-                numVisible: 1,
+                numVisible: 2,
                 indicators: true
             });
         });
