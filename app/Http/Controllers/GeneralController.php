@@ -33,7 +33,7 @@ class GeneralController extends Controller
             $average = $value;
             $averageInt = $average->avg;
         }
-        $productSugestions = Product::where('category_id', $product->category->id)->inRandomOrder()->limit(5)->get();
+        $productSugestions = Product::where('category_id', $product->category->id)->inRandomOrder()->limit(3)->get();
        
       
         $data = array( 

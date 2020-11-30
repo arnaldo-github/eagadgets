@@ -37,13 +37,15 @@
                         </a>
 
                     </p>
-                    <p>@if(isset($product->sale) && $product->sale > 0)<span class="red-text">{{$product->sale}}</span> @endif
-						<span @if(isset($product->sale) && $product->sale > 0) style="text-decoration: line-through;" @endif >{{$product->price}}</span></p>
-
-					@if(isset($product->sale) && $product->sale > 0)
-					<p class="red darken-1 white-text" style="font-size: 12px; font-weight: 500; width: fit-content; padding: 5px;">SALE</p>
+                    <p>
+						@if(isset($product->sale) && $product->sale > 0)
+					<span class="right red darken-1 white-text" style="font-size: 12px; font-weight: 500; width: fit-content; padding: 5px;">SALE</span>
 
 					@endif
+
+							@if(isset($product->sale) && $product->sale > 0)<span class="red-text">(antes){{$product->sale}}</span> @endif
+						<span @if(isset($product->sale) && $product->sale > 0) style="text-decoration: line-through;" @endif >{{$product->price}}</span>
+					</p>
 				</div>
 
         </div>

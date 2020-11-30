@@ -2,26 +2,7 @@
 @section('title', 'Página do produto - '. $product->name)
 @section('main')
 @Include('components-structure.searchbar')
-<div id="fb-root"></div>
-<script async defer crossorigin="anonymous" src="https://connect.facebook.net/pt_PT/sdk.js#xfbml=1&version=v9.0" nonce="BAxxxEfF"></script>
 
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window,document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
- fbq('init', {{Illuminate\Support\Facades\Config::get('social.pixel')}}); 
-fbq('track', 'PageView');
-</script>
-<noscript>
- <img height="1" width="1" 
-src="https://www.facebook.com/tr?id=3663972583662029&ev=PageView
-&noscript=1"/>
-</noscript>
 <div class="container" style=" margin-bottom: 30px;">
 
     <div class="row card main-card">
@@ -84,13 +65,15 @@ src="https://www.facebook.com/tr?id=3663972583662029&ev=PageView
 						</a>
 
 						</p>
-					<p>@if(isset($product->sale) && $product->sale > 0)<span class="red-text">{{$product->sale}}</span> @endif
-						<span @if(isset($product->sale) && $product->sale > 0) style="text-decoration: line-through;" @endif >{{$product->price}}</span></p>
-
-					@if(isset($product->sale) && $product->sale > 0)
-					<p class="red darken-1 white-text" style="font-size: 12px; font-weight: 500; width: fit-content; padding: 5px;">SALE</p>
+                        <p>
+						@if(isset($product->sale) && $product->sale > 0)
+					<span class="right red darken-1 white-text" style="font-size: 12px; font-weight: 500; width: fit-content; padding: 5px;">SALE</span>
 
 					@endif
+
+							@if(isset($product->sale) && $product->sale > 0)<span class="red-text">(antes){{$product->sale}}</span> @endif
+						<span @if(isset($product->sale) && $product->sale > 0) style="text-decoration: line-through;" @endif >{{$product->price}}</span>
+					</p>
 				</div>
 
 		</div>
@@ -102,7 +85,7 @@ src="https://www.facebook.com/tr?id=3663972583662029&ev=PageView
         document.addEventListener('DOMContentLoaded', function() {
             var elems = document.querySelectorAll('.carousel');
             var instances = M.Carousel.init(elems, {
-                numVisible: 2,
+                numVisible: 3,
                 indicators: true
             });
         });
@@ -168,5 +151,24 @@ src="https://www.facebook.com/tr?id=3663972583662029&ev=PageView
         
     </script>
 </div>
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/pt_PT/sdk.js#xfbml=1&version=v9.0" nonce="BAxxxEfF"></script>
 
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window,document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+ fbq('init', {{Illuminate\Support\Facades\Config::get('social.pixel')}}); 
+fbq('track', 'PageView');
+</script>
+<noscript>
+ <img height="1" width="1" 
+src="https://www.facebook.com/tr?id={{Illuminate\Support\Facades\Config::get('social.pixel')}}&ev=PageView
+&noscript=1"/>
+</noscript>
 @endsection
