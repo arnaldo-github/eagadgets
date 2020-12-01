@@ -4,8 +4,8 @@
         <a href="#" data-target="mobile-demo" class="sidenav-trigger black-text"><i class="material-icons">menu</i></a>
         <ul class="right hide-on-med-and-down">
             <li><a class="main-nav-link black-text" href="/">Contacto <span class="icon-link right material-icons">perm_contact_calendar</span></a></li>
-            <li><a class="main-nav-link black-text" href="/">Sobre nós <span class="icon-link right material-icons">info</span></a></li>
-            <li><a class="main-nav-link black-text" href="/">Perguntas frequentes<span class="right icon-link material-icons">help_outline</span> </a></li>
+            <li><a class="main-nav-link black-text" href="/sobre-nos">Sobre nós <span class="icon-link right material-icons">info</span></a></li>
+            <li><a class="main-nav-link black-text" href="/perguntas-frequentes">Perguntas frequentes<span class="right icon-link material-icons">help_outline</span> </a></li>
             @if(Route::has('login'))
             @auth
             <li><a class="main-nav-link black-text dropdown-trigger btn waves-effect" style="border-radius: 30px;" href='#' data-target='dropdown1'>Perfil <span class=" right material-icons">keyboard_arrow_down</span></a></li>
@@ -54,7 +54,12 @@
     @endif
     @endauth
     @endif
+    <li><div class="divider"></div></li>
+    @foreach(\App\Models\Category::all() as $category)
+        <li><a href="/category/{{$category->id}}">{{$category->name}}</a></li>
+    @endforeach
+    <li><div class="divider"></div></li>
     <li><a href="/">Contacto</a></li>
-    <li><a href="/">Sobre nós</a></li>
-    <li><a href="/">Perguntas frequentes</a></li>
+    <li><a href="/sobre-nos">Sobre nós</a></li>
+    <li><a href="/perguntas-frequentes">Perguntas frequentes</a></li>
 </ul>

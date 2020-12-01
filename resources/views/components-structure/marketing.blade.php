@@ -11,7 +11,7 @@
                 </div>
                 <div class="card-stacked">
                     <div class="card-content">
-                        <p class="center">Os nossos preços têm os preços mais baixos da cidade</p>
+                        <p class="center">Os nossos produtos têm os preços mais baixos da cidade</p>
                     </div>
 
                 </div>

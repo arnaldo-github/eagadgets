@@ -19,10 +19,15 @@ class AdminController extends Controller
         $rules = [
             'whatsappNumber' => 'required|max:255',
             'phoneNumber' => 'required|max:255',
+            'bannerText' => 'required|max:255',
         ];
-        
+        $attributes = [
+            'whatsappNumber' => 'Número de WhatsApp',
+            'phoneNumber' => 'Número de Celular',
+            'bannerText' => 'banner',
+        ];
 
-        $validator = Validator::make($request->all(), $rules, $messages);
+        $validator = Validator::make($request->all(), $rules, $messages, $attributes);
 
         if ($validator->fails()) {
             return redirect()->back()
@@ -30,9 +35,10 @@ class AdminController extends Controller
                 ->withInput();
         }
 
-        Config::set('social.whatsapp_number', $request->whatsappNumber);
-        Config::set('social.phone_number', $request->phoneNumber);
+      setting(['whatsappNumber' => $request->whatsappNumber, 
+      'phoneNumber'=> $request->phoneNumber, 'bannerText' => $request->bannerText]);
+       
 
-        return Config::get('social.whatsapp_number');
+        return redirect('/admin/options');
     }
 }

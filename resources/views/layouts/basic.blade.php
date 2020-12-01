@@ -23,7 +23,7 @@
 
 <body>
 <div class="top-banner">
-    <p class="center white-text" >Entre em contacto {{Illuminate\Support\Facades\Config::get('social.phone_number')}}</p>
+    <p class="center white-text" >{{setting('bannerText')}}</p>
 </div>
 @Include('components-structure.navbar')
 

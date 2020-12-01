@@ -5,9 +5,11 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\GeneralController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\StaticController;
 use App\Http\Middleware\CheckAdmin;
 use App\Models\Category;
 use Illuminate\Support\Facades\Route;
+use Laravel\Jetstream\Rules\Role;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +24,8 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::view('/basic', 'layouts.basic');
+Route::get('/sobre-nos', [StaticController::class, 'aboutUs']);
+Route::get('/perguntas-frequentes', [StaticController::class, 'faq']);
 
 Route::get('/old', function () {
     return view('welcome');
@@ -47,6 +51,7 @@ Route::get('/category/{id}', [CategoryController::class, 'show']);
 
 
 Route::middleware(['auth', CheckAdmin::class])->group(function () {
+    
     Route::redirect('/admin', '/admin/product');
     Route::get('/admin/category/list-all', [CategoryController::class, 'listAll']);
     Route::get('/admin/product/search', [ProductController::class, 'search']);

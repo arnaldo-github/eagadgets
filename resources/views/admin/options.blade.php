@@ -45,16 +45,21 @@
         @endif
 
         <div class="">
-            <h3>Criar Categoria</h3>
+            <h3>Alterar configurações</h3>
             <form action="{{url('/admin/saveOptions')}}" method="POST">
                 @csrf
                 <div class="form-group">
                     <label for="name">Telefone do WhatsApp (Incluir o +258)</label>
-                    <input type="text" maxlength="255" value="{{old('whatsappNumber')}}" required class="form-control" name="whatsappNumber" id="whatsappNumber">
+                    <input type="text" maxlength="255" value="{{setting('whatsappNumber')}}" required class="form-control" name="whatsappNumber" id="whatsappNumber">
                 </div>
                 <div class="form-group">
                     <label for="descripion">Telefone de chamada (Incluir o +258)</label>
-                    <input type="text" value="{{old('phoneNumber')}}" require maxlength="255" class="form-control" name="phoneNumber" id="phoneNumber">
+                    <input type="text" value="{{setting('phoneNumber')}}" required maxlength="255" class="form-control" name="phoneNumber" id="phoneNumber">
+                </div>
+                <div class="form-group">
+                    <label for="descripion">Texto do banner</label>
+                    <input type="text" name="bannerText" value="{{setting('bannerText')}}" required maxlength="255" class="form-control" 
+                   id="bannerText">
                 </div>
                 <button type="submit" class="btn btn-primary">Salvar configurações</button>
             </form>

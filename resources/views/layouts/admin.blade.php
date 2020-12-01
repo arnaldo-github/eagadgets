@@ -79,6 +79,13 @@
                             <a class="dropdown-item" href="/admin/category/list-all">Listar Todas Categorias</a>
                         </div>
                     </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link pl-0" data-toggle="dropdown" href="#"><strong> <i class="fa fa-bars"></i> &nbsp Propriedades</strong></a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/admin/options">Alterar propriedades</a>
+                        
+                        </div>
+                    </li>
                 </ul>
             </div> <!-- collapse .// -->
         </div> <!-- container .// -->
