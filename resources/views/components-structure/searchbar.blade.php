@@ -9,3 +9,14 @@
       </form>
     </div>
   </nav>
+
+  <script>
+   
+$( document ).ready(function() {
+  $( "#search" ).focus(function() {
+    alert("searchh")
+    fbq('track', 'Search');
+});
+  
+});
+ </script>

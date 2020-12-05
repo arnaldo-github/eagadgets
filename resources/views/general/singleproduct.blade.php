@@ -31,11 +31,11 @@
                     {{$product->price}} MT @if(isset($product->sale) && $product->sale > 0)<span>antes</span> @endif</h5>
           @if(isset($product->sale) && $product->sale > 0)      <h5 class="center red-text" style=" font-size: 20px;font-weight: 700;">
                     {{$product->sale}} MT <small>(agora)</small></h5> @endif
-                <p class="center" class="center"><a
+                <p id="whatsAppButton"class="center" class="center"><a
                 href="https://wa.me/{{setting('whatsappNumber')}}?text={{$message . ' '. url()->full()}}"
                 style="background-color:  rgb(83, 200, 243) !important;width: 80%; height: 100%; padding-top: 10px; padding-bottom: 10px;" class="btn black">Mandar Mensagem <span class="flaticon-whatsapp"> </span> </a> <br>
                 </p>
-                <p style="margin-top: 10px;" class="center"><a  href="tel:{{setting('phoneNumber')}}" style="background-color:  rgb(83, 200, 243) ;width: 80%; height: 100%; padding-top: 10px; padding-bottom: 10px;" class="btn black">Ligar <span class="flaticon-phone-call"></span>
+                <p id="callButton" style="margin-top: 10px;" class="center"><a  href="tel:{{setting('phoneNumber')}}" style="background-color:  rgb(83, 200, 243) ;width: 80%; height: 100%; padding-top: 10px; padding-bottom: 10px;" class="btn black">Ligar <span class="flaticon-phone-call"></span>
 </a> <br>
                 </p>
             </div>
@@ -91,6 +91,17 @@
         });
     </script>
      <script>
+         $( document ).ready(function() {
+            $( "#whatsAppButton" ).click(function() {
+            
+                fbq('track', 'AddToCart');
+            });
+
+            $( "#callButton" ).click(function() {
+              
+                fbq('track', 'Purchase', {value: 0.00, product: '{{$product->name}}'});
+            });
+        });
         
         paintStars({{$average}})
         function paintStars(sno){

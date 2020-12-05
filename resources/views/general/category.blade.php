@@ -17,7 +17,9 @@
 </div>
 
 <div class="container">
+	@if(count($products)>0)
 	  <h4 class="center">Produtos da categoria {{$category->name}} </h4>
+	@endif
 	  <div class="row">
 	  @foreach($products as $product)
 		<div class="col s12 m6 l4 xl4 ">

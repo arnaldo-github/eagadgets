@@ -9,7 +9,7 @@
 
     <div class="container ">
         <p class="center" >
-        <b>EA Gadgets<b> é uma marca Moçambique com
+        <b>EA Gadgets</b> é uma marca Moçambique com
         sedes em Maputo. </p>
 
     <p class="center">    Nossa <b>missão</b>  é trazer o mercado digital
