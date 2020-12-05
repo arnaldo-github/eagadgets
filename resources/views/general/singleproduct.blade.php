@@ -99,7 +99,7 @@
 
             $( "#callButton" ).click(function() {
               
-                fbq('track', 'Purchase', {value: 0.00, currency:'MTN', product: '{{$product->name}}'});
+                fbq('track', 'Purchase', {value: 0.00, currency: 'USD', product: '{{$product->name}}'});
             });
         });
         
