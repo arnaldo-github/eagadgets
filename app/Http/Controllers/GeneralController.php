@@ -24,7 +24,9 @@ class GeneralController extends Controller
 
     public function singleProduct($id){
         $product = Product::findOrFail($id);
-        $array = DB::select("SELECT round(AVG(review),0) as avg FROM `reviews` WHERE product_id =".$id." GROUP BY product_id");
+
+       
+        $array = DB::select("SELECT round(AVG(review),0) as avg FROM `reviews` WHERE product_id =".$product->id." GROUP BY product_id");
 
         //No caso de a query não retornar nada, vai inventar 4
         $averageInt= 4;  
