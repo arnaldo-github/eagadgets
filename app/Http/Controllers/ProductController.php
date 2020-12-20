@@ -88,6 +88,8 @@ class ProductController extends Controller
         $product->name = $request->name;
         $product->description = $request->description;
         $product->price = $request->price;
+        $product->whatsapp_number = $request->whatsapp_number;
+        $product->phone_number = $request->phone_number;
         $product->sale = $request->sale;
         $product->user_id = auth()->user()->id;
         $product->category_id =   $request->category_id;
@@ -190,6 +192,8 @@ class ProductController extends Controller
         if (strlen($request->description) > 11) {
             $product->description = $request->description;
         }
+        $product->whatsapp_number = $request->whatsapp_number;
+        $product->phone_number = $request->phone_number;
         $product->price = $request->price;
         $product->sale = $request->sale;
         $product->user_id = auth()->user()->id;

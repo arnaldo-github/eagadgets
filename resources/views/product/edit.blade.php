@@ -59,6 +59,16 @@
                     <label for="sale">Desconto do produto (novo preço)</label>
                     <input type="number" step=".01" min="0" value="{{$product->sale}}"  class="form-control" name="sale" id="sale">
                 </div>
+                <div class="form-group">
+                    <label for="phone_number">Número a ligar</label>
+                    <input type="text" maxlength="255" value="{{$product->phone_number}}" 
+                    required class="form-control" name="phone_number" id="phone_number">
+                </div>
+                <div class="form-group">
+                    <label for="whatsapp_number">Número do WhatsApp</label>
+                    <input type="text" maxlength="255" value="{{$product->whatsapp_number}}" 
+                    required class="form-control" name="whatsapp_number" id="whatsapp_number">
+                </div>
 
 
                 <div class="form-group">
