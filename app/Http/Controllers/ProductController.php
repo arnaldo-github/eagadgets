@@ -24,7 +24,7 @@ class ProductController extends Controller
     {
 
         $data = array(
-            'products' => Product::orderBy('updated_at', 'desc')->paginate(50),
+            'products' => Product::orderBy('updated_at', 'desc')->paginate(30),
             'categories' => Category::all(),
         );
         return view('product.index')->with($data);

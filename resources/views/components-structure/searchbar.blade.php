@@ -14,7 +14,6 @@
    
 $( document ).ready(function() {
   $( "#search" ).focus(function() {
-   
     fbq('track', 'Search');
 });
   
