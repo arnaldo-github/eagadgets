@@ -19,7 +19,7 @@
 	  <h4 class="center">Produtos</h4>
 	  <div class="row">
 	  @foreach($products as $product)
-		<div class="col s12 m6 l4 xl4 ">
+		<div class="col product-row s12 m6 l4 xl4 ">
 			<a href="{{url('/product/'.$product->id)}}">
 				<div class="card product-card">
 					<a href="{{url('/product/'.$product->id)}}">
