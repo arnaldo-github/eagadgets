@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\View\ViewFinderInterface;
@@ -81,8 +82,12 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        $category = Category::find($id);
+        
+        DB::enableQueryLog();
+        $category = Category::findOrFail($id);
+        
         if (!$category) {
+            dd(DB::getQueryLog());
             return "NOT" . $category . "id: ". $id;
         }
         $data = array(
