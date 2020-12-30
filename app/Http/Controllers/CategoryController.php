@@ -82,14 +82,8 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        
-        DB::enableQueryLog();
-        $category = Category::find($id);
-        
-        if (!$category) {
-            dd(DB::getQueryLog());
-            return "NOT" . $category . "id: ". $id;
-        }
+        $category = Category::findOrFail($id);
+       
         $data = array(
             'placeholder' => 'Pesquise nessa categoria',
             'category' => $category,

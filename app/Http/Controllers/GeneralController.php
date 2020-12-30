@@ -54,7 +54,7 @@ class GeneralController extends Controller
     public function allProducts(){
         $data = array(
             'placeholder' => 'Pesquise por todos os produtos',
-            'categories' => DB::table('categories')->orderBy('name')->get(),
+            'categories' =>Category::orderBy('name')->get(),
             'products' => Product::orderBy('updated_at', 'desc')->paginate(30),
         );
        return view('general.allproducts')->with($data);
