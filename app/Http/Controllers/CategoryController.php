@@ -81,12 +81,16 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-
+        $category = Category::findOrFail($id);
+        if (!$category) {
+            
+            return "NOT" . $category;
+        }
         $data = array(
             'placeholder' => 'Pesquise nessa categoria',
-            'category' => Category::findOrFail($id),
+            'category' => $category,
             'categories' => Category::all(),
-            'products' => $products = Product::where([['category_id', $id]])->orderBy('updated_at', 'desc')->paginate(50),
+            'products' => $products = Product::where([['category_id', $id]])->orderBy('updated_at', 'desc')->paginate(20),
         );
 
         return view('general.category')->with($data);
