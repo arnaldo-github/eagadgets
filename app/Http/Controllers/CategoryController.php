@@ -84,7 +84,7 @@ class CategoryController extends Controller
     {
         
         DB::enableQueryLog();
-        $category = Category::findOrFail($id);
+        $category = Category::find($id);
         
         if (!$category) {
             dd(DB::getQueryLog());
