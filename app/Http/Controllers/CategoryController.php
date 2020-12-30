@@ -83,7 +83,7 @@ class CategoryController extends Controller
     {
         $category = Category::find($id);
         if (!$category) {
-            return "NOT" . $category;
+            return "NOT" . $category . "id: ". $id;
         }
         $data = array(
             'placeholder' => 'Pesquise nessa categoria',
