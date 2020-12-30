@@ -16,17 +16,7 @@
 </div>
 
 <div class="container">
-	<div class="row">
-	<div class="input-field col s12">
-    <select id="selectcategory" onchange="redirectToCategories()">
-      <option value="" disabled selected>Escolhe uma categoria</option>
-	  @foreach($categories as $category)
-	  	<option value="{{$category->id}}">{{$category->name}}</option>
-	  @endforeach
-    </select>
-    <label>Categoria de produtos</label>
-  </div>
-	</div>
+	@include('components-structure.choose-category')
 	  <h4 class="center">Produtos</h4>
 	  <div class="row">
 	  @foreach($products as $product)
@@ -70,8 +60,7 @@
 <script async defer crossorigin="anonymous" src="https://connect.facebook.net/pt_PT/sdk.js#xfbml=1&version=v9.0" nonce="BAxxxEfF"></script>
 
 <script>
-	 var elems = document.querySelectorAll('select');
-    var instances = M.FormSelect.init(elems, {});
+	
 !function(f,b,e,v,n,t,s)
 {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
 n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -89,13 +78,5 @@ src="https://www.facebook.com/tr?id={{Illuminate\Support\Facades\Config::get('so
 &noscript=1"/>
 </noscript>
 
-<script>
-	function redirectToCategories(){
-		console.log($('#selectcategory').val());
-		let idCategory = $('#selectcategory').val()
-		if (idCategory!="") {
-			location.href = "/category/"+idCategory
-		}
-	}
-</script>
+
 @endsection

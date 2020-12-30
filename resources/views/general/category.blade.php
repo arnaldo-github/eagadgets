@@ -5,6 +5,7 @@
 @Include('components-structure.searchbar')
 
 <div class="container">
+@include('components-structure.choose-category')
 <div class="row">
 		@if(count($products)<=0)
 			<h5>Não há produtos por mostrar
