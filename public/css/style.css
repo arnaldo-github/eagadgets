@@ -158,7 +158,8 @@ p span{
     }
   @media only screen and (min-width: 1200px) {
     .product-row{
-      height: 450px;
+      height: 450px; 
+      
     }
     .nav-search-top{
         display: none !important;

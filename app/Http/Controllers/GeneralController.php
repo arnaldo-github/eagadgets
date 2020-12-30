@@ -14,7 +14,7 @@ class GeneralController extends Controller
     public function index()
     {
         $data = array(
-            'categories' => Category::all(),
+            'categories' => DB::table('categories')->limit(3)->get(),
             'products' => Product::orderBy('updated_at', 'desc')->limit(5)->get(),
         );
        return view('general.index')->with($data);
@@ -54,7 +54,7 @@ class GeneralController extends Controller
     public function allProducts(){
         $data = array(
             'placeholder' => 'Pesquise por todos os produtos',
-            'categories' => Category::all(),
+            'categories' => DB::table('categories')->orderBy('name')->get(),
             'products' => Product::orderBy('updated_at', 'desc')->paginate(30),
         );
        return view('general.allproducts')->with($data);

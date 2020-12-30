@@ -19,6 +19,7 @@
 				</a>
 			</div>
 			@endforeach
+			<p class="center"><a class="btn" href="/product">Ver todas categorias</a></p>
 		</div>
 	</div>
 
