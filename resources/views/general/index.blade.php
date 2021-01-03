@@ -11,7 +11,7 @@
 	<div class="container" style="margin-top: 10px;">
 		<div class="row">
 			@foreach($categories as $category)
-			<div class="hoverable col s6 m6 l4 xl4">
+			<div class="hoverable col s12 m6 l4 xl4">
 				<a href="{{url('/category/'.$category->id)}}">
 					<div class=" card-panel category">
 						<span class="white-text">{{$category->name}}</span>
