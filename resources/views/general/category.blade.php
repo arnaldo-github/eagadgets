@@ -33,7 +33,6 @@
 						<a class="black-text product-link" href="{{url('/product/'.$product->id)}}">
 							{{$product->name}}
 						</a>
-
 						<p>
 						@if(isset($product->sale) && $product->sale > 0)
 					<span class="right red darken-1 white-text" style="font-size: 12px; font-weight: 500; width: fit-content; padding: 5px;">SALE</span>
