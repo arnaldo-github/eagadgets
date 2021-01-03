@@ -14,7 +14,7 @@ class GeneralController extends Controller
     public function index()
     {
         $data = array(
-            'categories' => Category::limit(3)->get(),
+            'categories' => Category::limit(4)->get(),
             'products' => Product::orderBy('updated_at', 'desc')->limit(5)->get(),
         );
        return view('general.index')->with($data);
