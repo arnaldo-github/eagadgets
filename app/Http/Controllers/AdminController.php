@@ -4,10 +4,50 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class AdminController extends Controller
 {
+    public function heroImage(){
+        return view('admin.hero');
+    }
+    public function saveHeroImage(Request $request){
+        $messages = [
+            'required' => 'O campo :attribute  é obrigatório',
+            'banner.max' => 'O banner não pode ter mais de 700 Kilobytes',
+            'banner.image' => 'O banner deve ser uma imagem',
+        ];
+        $rules = [
+            'banner' => 'file|image|max:700',
+        ];
+       
+        
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        if($request->hasfile('banner')){
+            $file = $request->file('banner');
+            $filename = Str::random(4) . time() . '.' . $file->getClientOriginalExtension();
+            $path = 'public/img/' . $filename;
+            Storage::disk('local')->put($path, file_get_contents($file));
+            $path = 'storage/img/' . $filename;
+            setting(['banner' => $path]);
+            
+        }
+
+
+        return redirect('/admin/options/hero-image');
+
+        }
+
+
+    
     public function options(){
         return view('admin.options');
     }

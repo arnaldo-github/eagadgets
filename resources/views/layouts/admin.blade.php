@@ -83,6 +83,7 @@
                         <a class="nav-link pl-0" data-toggle="dropdown" href="#"><strong> <i class="fa fa-bars"></i> &nbsp Propriedades</strong></a>
                         <div class="dropdown-menu">
                             <a class="dropdown-item" href="/admin/options">Alterar propriedades</a>
+                            <a class="dropdown-item" href="/admin/options/hero-image">Alterar propriedades</a>
                         
                         </div>
                     </li>
@@ -98,9 +99,13 @@
             
             
             @show
+
+            
      
     </div>
-
+    @section('result')
+        
+    @show
 </body>
 
 </html>

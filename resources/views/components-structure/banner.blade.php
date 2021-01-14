@@ -1,3 +1,5 @@
+
+
 <div class="banner">
     <div class="banner-content">
       <h1>Bem Vindo a <br> <span style="color: rgb(68, 37, 111);">EA Gadgets</span></h1>

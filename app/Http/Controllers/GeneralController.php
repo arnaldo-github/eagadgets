@@ -20,6 +20,13 @@ class GeneralController extends Controller
        return view('general.index')->with($data);
     }
 
+    public function indexTemp(){
+        $data = array(
+            'categories' => Category::limit(3)->get(),
+            'products' => Product::orderBy('updated_at', 'desc')->limit(5)->get(),
+        );
+       return view('general.index-temp')->with($data);
+    }
 
 
     public function singleProduct($id){

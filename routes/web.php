@@ -35,6 +35,7 @@ Route::post('/test', function(){
 });
 
 Route::get('/', [GeneralController::class, 'index']);
+Route::get('/admin/temp', [GeneralController::class, 'indexTemp']);
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return redirect('/');
@@ -56,6 +57,8 @@ Route::middleware(['auth', CheckAdmin::class])->group(function () {
     Route::get('/admin/category/list-all', [CategoryController::class, 'listAll']);
     Route::get('/admin/product/search', [ProductController::class, 'search']);
     Route::get('/admin/options', [AdminController::class, 'options']);
+    Route::get('/admin/options/hero-image', [AdminController::class, 'heroImage']);
+    Route::post('/admin/options/save-hero-image', [AdminController::class, 'saveHeroImage']);
     Route::post('/admin/saveOptions', [AdminController::class, 'saveOptions']);
     Route::resource('/admin/category', CategoryController::class);
     Route::resource('/admin/product',ProductController::class); 
