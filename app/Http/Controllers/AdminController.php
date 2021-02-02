@@ -20,7 +20,7 @@ class AdminController extends Controller
             'banner.image' => 'O banner deve ser uma imagem',
         ];
         $rules = [
-            'banner' => 'file|image|max:700',
+            'banner' => 'required|file|image|max:700',
         ];
        
         
@@ -37,9 +37,16 @@ class AdminController extends Controller
             $path = 'public/img/' . $filename;
             Storage::disk('local')->put($path, file_get_contents($file));
             $path = 'storage/img/' . $filename;
+           
+            $banner = setting('banner');
+            if ($banner !=null) {
+                $deletePath = Str::replaceFirst('storage', 'public', $banner);
+                Storage::disk('local')->delete($deletePath);
+            }
+
             setting(['banner' => $path]);
             
-        }
+        } 
 
 
         return redirect('/admin/options/hero-image');
